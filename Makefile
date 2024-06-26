@@ -22,3 +22,7 @@ target/$(TARGET): build
 		--verbose \
 		--no-fallback \
 		$@
+
+resources/debbugs.wsdl:
+	# see https://wiki.debian.org/DebbugsSoapInterface
+	curl -L https://git.savannah.gnu.org/cgit/emacs/elpa.git/plain/Debbugs.wsdl?h=externals/debbugs > $@
