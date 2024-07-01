@@ -6,23 +6,24 @@
 (xml/alias-uri 'soapenc "http://schemas.xmlsoap.org/soap/encoding/")
 (xml/alias-uri 'xsd "http://www.w3.org/2001/XMLSchema")
 (xml/alias-uri 'xsi "http://www.w3.org/2001/XMLSchema-instance")
-(xml/alias-uri 't "urn:Debbugs/SOAP")
+(xml/alias-uri 's "urn:Debbugs/SOAP")
 
 (defn get-status [ids]
-  `[::t/get_status
-    [::t/bugs {::xsi/type "soapenc:Array"
+  `[::s/get_status
+    [::s/bugs {::xsi/type "soapenc:Array"
                ::soapenc/arrayType ~(format "xsd:int[%d]" (count ids))}
-     ~@(map (fn [x] [::t/bugs {::xsi/type "xsd:int"} x]) ids)]])
+     ~@(map (fn [x] [::s/bugs {::xsi/type "xsd:int"} x]) ids)]])
 
 (defn get-bugs [query]
-  `[::t/get_bugs
-    [::t/query {::xsi/type "soapenc:Array"
-                ::soapenc/arrayType ~(format "xsd:anyType[%d]" (* (count query) 2))}
-     ~@(mapcat (fn [[key val]]
-                 (mapcat (fn [v] [[::t/query {::xsi/type "xsd:string"} (name key)]
-                                  [::t/query {::xsi/type "xsd:string"} v]])
-                         (if (coll? val) val [val])))
-               query)]])
+  (let [body (mapcat (fn [[key val]]
+                       (mapcat (fn [v] [[::s/query {::xsi/type "xsd:string"} (name key)]
+                                        [::s/query {::xsi/type "xsd:string"} v]])
+                               (if (coll? val) val [val])))
+                     query)]
+    `[::s/get_bugs
+      [::s/query {::xsi/type "soapenc:Array"
+                  ::soapenc/arrayType ~(format "xsd:anyType[%d]" (count body))}
+       ~@body]]))
 
 (defn envelop [body]
   `[::soap/Envelope
@@ -34,4 +35,4 @@
      ~body]])
 
 (defn render-soap-xml [sexp]
-  (xml/indent-str (xml/sexp-as-element sexp)))
+  (xml/emit-str (xml/sexp-as-element sexp)))
