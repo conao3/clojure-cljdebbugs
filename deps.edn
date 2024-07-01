@@ -4,6 +4,7 @@
   org.clojure/data.xml {:mvn/version "0.2.0-alpha9"}
   org.babashka/http-client {:mvn/version "0.4.19"}
   spootnik/unilog {:mvn/version "0.7.32"}
+  prismatic/schema {:mvn/version "1.4.1"}
   com.github.clj-easy/graal-build-time {:mvn/version "1.0.5"}}
 
  :aliases

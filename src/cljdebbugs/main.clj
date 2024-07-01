@@ -4,15 +4,6 @@
    [babashka.http-client :as http])
   (:gen-class))
 
-(xml/alias-uri 'soap "http://schemas.xmlsoap.org/soap/envelope/")
-(xml/alias-uri 'soapenc "http://schemas.xmlsoap.org/soap/encoding/")
-(xml/alias-uri 'xsd "http://www.w3.org/2001/XMLSchema")
-(xml/alias-uri 'xsi "http://www.w3.org/2001/XMLSchema-instance")
-(xml/alias-uri 't "urn:Debbugs/SOAP")
-
-(defn- render-xml [sexp]
-  (xml/indent-str (xml/sexp-as-element sexp)))
-
 (defn -main [& _args]
   (let [body (render-xml
               [::soap/Envelope
