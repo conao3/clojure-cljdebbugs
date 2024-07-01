@@ -24,7 +24,7 @@
                          (if (coll? val) val [val])))
                query)]])
 
-(defn- envelop [body]
+(defn envelop [body]
   `[::soap/Envelope
     {::soapenc/encodingStyle "https://schemas.xmlsoap.org/soap/encoding/"
      :xmlns/soapenc "http://schemas.xmlsoap.org/soap/encoding/"
@@ -34,4 +34,4 @@
      ~body]])
 
 (defn render-soap-xml [sexp]
-  (xml/indent-str (xml/sexp-as-element (envelop sexp))))
+  (xml/indent-str (xml/sexp-as-element sexp)))
