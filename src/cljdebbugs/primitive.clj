@@ -19,10 +19,9 @@
     [::t/query {::xsi/type "soapenc:Array"
                 ::soapenc/arrayType ~(format "xsd:anyType[%d]" (* (count query) 2))}
      ~@(mapcat (fn [[key val]]
-                 (let [val* (if (coll? val) val [val])]
-                   (mapcat (fn [v] [[::t/query {::xsi/type "xsd:string"} (name key)]
-                                    [::t/query {::xsi/type "xsd:string"} v]])
-                           val*)))
+                 (mapcat (fn [v] [[::t/query {::xsi/type "xsd:string"} (name key)]
+                                  [::t/query {::xsi/type "xsd:string"} v]])
+                         (if (coll? val) val [val])))
                query)]])
 
 (defn- envelop [body]
