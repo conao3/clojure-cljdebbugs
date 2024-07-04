@@ -5,7 +5,7 @@
 
 (defn request [url xml-sexp]
   (http/post url {:headers {:content-type "text/xml"}
-                  :body (m.primitive/render-soap-xml xml-sexp)}))
+                  :body (m.primitive/render-xml xml-sexp)}))
 
 (defn get-bugs [url query]
   (request url (m.primitive/envelop

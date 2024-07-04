@@ -19,7 +19,7 @@
               [::s/bugs {::xsi/type "xsd:int"} 2]
               [::s/bugs {::xsi/type "xsd:int"} 3]]])
            (xml/parse-str
-            (sut/render-soap-xml
+            (sut/render-xml
              (sut/get-status [1 2 3]))))))
 
 (t/deftest get-bugs-test
@@ -30,7 +30,7 @@
               [::s/query {::xsi/type "xsd:string"} "package"]
               [::s/query {::xsi/type "xsd:string"} "emacs"]]])
            (xml/parse-str
-            (sut/render-soap-xml
+            (sut/render-xml
              (sut/get-bugs {:package "emacs"})))))
 
   (t/is (= (xml/sexp-as-element
@@ -42,7 +42,7 @@
               [::s/query {::xsi/type "xsd:string"} "severity"]
               [::s/query {::xsi/type "xsd:string"} "normal"]]])
            (xml/parse-str
-            (sut/render-soap-xml
+            (sut/render-xml
              (sut/get-bugs {:package "emacs" :severity "normal"})))))
 
   (t/is (= (xml/sexp-as-element
@@ -54,7 +54,7 @@
               [::s/query {::xsi/type "xsd:string"} "severity"]
               [::s/query {::xsi/type "xsd:string"} "normal"]]])
            (xml/parse-str
-            (sut/render-soap-xml
+            (sut/render-xml
              (sut/get-bugs {:package "emacs" :severity ["normal"]})))))
 
   (t/is (= (xml/sexp-as-element
@@ -68,7 +68,7 @@
               [::s/query {::xsi/type "xsd:string"} "severity"]
               [::s/query {::xsi/type "xsd:string"} "important"]]])
            (xml/parse-str
-            (sut/render-soap-xml
+            (sut/render-xml
              (sut/get-bugs {:package "emacs" :severity ["normal" "important"]}))))))
 
 (t/deftest render-soap-xml-test
@@ -80,7 +80,7 @@
                 "</baz>"
                 "</bar>"
                 "</foo>")
-           (sut/render-soap-xml [:foo {:foo-attr "foo value"}
+           (sut/render-xml [:foo {:foo-attr "foo value"}
                                  [:bar {:bar-attr "bar value"}
                                   [:baz {:baz-attr "baz value"}
                                    "the baz value"]]]))))
@@ -92,7 +92,7 @@
              [::soap/Body
               {}]])
            (xml/parse-str
-            (sut/render-soap-xml
+            (sut/render-xml
              (sut/envelop
               {}))))))
 

@@ -34,5 +34,5 @@
     [::soap/Body
      ~body]])
 
-(defn render-soap-xml [sexp]
+(defn render-xml [sexp]
   (xml/emit-str (xml/sexp-as-element sexp)))
