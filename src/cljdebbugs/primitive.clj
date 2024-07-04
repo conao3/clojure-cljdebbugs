@@ -8,12 +8,6 @@
 (xml/alias-uri 'xsi "http://www.w3.org/2001/XMLSchema-instance")
 (xml/alias-uri 's "urn:Debbugs/SOAP")
 
-(defn get-status [ids]
-  `[::s/get_status
-    [::s/bugs {::xsi/type "soapenc:Array"
-               ::soapenc/arrayType ~(format "xsd:int[%d]" (count ids))}
-     ~@(map (fn [x] [::s/bugs {::xsi/type "xsd:int"} x]) ids)]])
-
 (defn get-bugs [query]
   (let [body (mapcat (fn [[key val]]
                        (mapcat (fn [v] [[::s/query {::xsi/type "xsd:string"} (name key)]
@@ -24,6 +18,12 @@
       [::s/query {::xsi/type "soapenc:Array"
                   ::soapenc/arrayType ~(format "xsd:anyType[%d]" (count body))}
        ~@body]]))
+
+(defn get-status [ids]
+  `[::s/get_status
+    [::s/bugs {::xsi/type "soapenc:Array"
+               ::soapenc/arrayType ~(format "xsd:int[%d]" (count ids))}
+     ~@(map (fn [x] [::s/bugs {::xsi/type "xsd:int"} x]) ids)]])
 
 (defn envelop [body]
   `[::soap/Envelope
