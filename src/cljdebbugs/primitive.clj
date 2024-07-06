@@ -36,3 +36,12 @@
 
 (defn render-xml [sexp]
   (xml/emit-str (xml/sexp-as-element sexp)))
+
+(defn sexp-hiccup [sexp]
+  (if (map? sexp)
+    (let [{:keys [tag attrs content]} sexp]
+      (cond
+        (seq content) `[~tag ~attrs ~@(map sexp-hiccup content)]
+        (seq attrs) [tag attrs]
+        :else [tag]))
+    sexp))

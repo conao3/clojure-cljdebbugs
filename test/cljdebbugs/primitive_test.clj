@@ -95,3 +95,26 @@
                                  [:bar {:bar-attr "bar value"}
                                   [:baz {:baz-attr "baz value"}
                                    "the baz value"]]]))))
+
+(t/deftest sexp-hiccup-test
+  (t/is (= [:foo]
+           (sut/sexp-hiccup
+            (xml/sexp-as-element [:foo]))))
+
+  (t/is (= [:foo {:foo-attr "foo value"}]
+           (sut/sexp-hiccup
+            (xml/sexp-as-element [:foo {:foo-attr "foo value"}]))))
+
+  (t/is (= [:foo {:foo-attr "foo value"}
+            [:bar {:bar-attr "bar value"}]]
+           (sut/sexp-hiccup
+            (xml/sexp-as-element [:foo {:foo-attr "foo value"}
+                                  [:bar {:bar-attr "bar value"}]]))))
+
+  (t/is (= [:foo {:foo-attr "foo value"}
+            [:bar {:bar-attr "bar value"}
+             [:baz {} "The baz value"]]]
+           (sut/sexp-hiccup
+            (xml/sexp-as-element [:foo {:foo-attr "foo value"}
+                                  [:bar {:bar-attr "bar value"}
+                                   [:baz {} "The baz value"]]])))))
