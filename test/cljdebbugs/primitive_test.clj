@@ -71,7 +71,18 @@
             (sut/render-xml
              (sut/get-bugs {:package "emacs" :severity ["normal" "important"]}))))))
 
-(t/deftest render-soap-xml-test
+(t/deftest envelop-test
+  (t/is (= (xml/sexp-as-element
+            [::soap/Envelope
+             {::soapenc/encodingStyle "https://schemas.xmlsoap.org/soap/encoding/"}
+             [::soap/Body
+              {}]])
+           (xml/parse-str
+            (sut/render-xml
+             (sut/envelop
+              {}))))))
+
+(t/deftest render-xml-test
   (t/is (= (str "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                 "<foo foo-attr=\"foo value\">"
                 "<bar bar-attr=\"bar value\">"
@@ -84,15 +95,3 @@
                                  [:bar {:bar-attr "bar value"}
                                   [:baz {:baz-attr "baz value"}
                                    "the baz value"]]]))))
-
-(t/deftest envelop-test
-  (t/is (= (xml/sexp-as-element
-            [::soap/Envelope
-             {::soapenc/encodingStyle "https://schemas.xmlsoap.org/soap/encoding/"}
-             [::soap/Body
-              {}]])
-           (xml/parse-str
-            (sut/render-xml
-             (sut/envelop
-              {}))))))
-
