@@ -24,6 +24,30 @@
        (filter #(= (:tag %) ::s/item))
        (map (comp first :content))))
 
+(defn- parse-status-item [sexp]
+  (->> sexp
+       :content second
+       :content
+       (mapcat #(list (keyword (name (:tag %)))
+                      (cond (= (->> % :attrs ::xsi/type) "soapenc:Array")
+                            (->> % :content (mapcat :content))
+                            (= (->> % :attrs ::xsi/type) "apachens:Map")
+                            (->> % :content
+                                 (mapcat (fn [x] (->> x :content
+                                                      ((fn [y] (list
+                                                                (->> y first :content first)
+                                                                (= "true" (->> y second :attrs ::xsi/nil))))))))
+                                 (apply array-map))
+                            :else (:content %))))
+       (apply array-map)))
+
 (defn get-status [url ids]
-  (request url (m.primitive/envelop
-                (m.primitive/get-status ids))))
+  (->> (->> ids m.primitive/get-status m.primitive/envelop)
+       (request url)
+       :body
+       xml/parse-str
+       xml-seq
+       (filter #(= (:tag %) ::s/get_statusResponse)) first
+       :content first                   ; skip s/s-gensym3 tag
+       :content
+       (map parse-status-item)))

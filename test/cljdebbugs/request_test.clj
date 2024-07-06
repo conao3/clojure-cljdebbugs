@@ -26,3 +26,38 @@
                                                     xml/emit-str)})]
     (t/is (= ["16469" "71284" "57246"]
              (sut/get-bugs url {:package "emacs"})))))
+
+(t/deftest get-status-test
+  (with-redefs [sut/request (constantly {:status 200
+                                         :body (->> [::s/get_statusResponse
+                                                     [::s/s-gensym3 {::xsi/type "apachens:Map"}
+                                                      [::s/item
+                                                       [::s/key {::xsi/type "xsd:int"} "16469"]
+                                                       [::s/value
+                                                        [::s/bug_num {::xsi/type "xsd:int"} "16469"]
+                                                        [::s/forwarded {::xsi/type "xsd:string"}]
+                                                        [::s/found_versions {::xsi/type "soapenc:Array" ::soapenc/arrayType "xsd:string[2]"}
+                                                         [::s/item {::xsi/type "xsd:string"} "24.3.50"]
+                                                         [::s/item {::xsi/type "xsd:string"} "28.0.50"]]
+                                                        [::s/found {::xsi/type "apachens:Map"}
+                                                         [::s/item
+                                                          [::s/key {::xsi/type "xsd:str"} "24.3.50"]
+                                                          [::s/value {::xsi/nil "true"}]]
+                                                         [::s/item
+                                                          [::s/key {::xsi/type "xsd:str"} "28.0.50"]
+                                                          [::s/value {::xsi/nil "true"}]]]]]
+                                                      [::s/item
+                                                       [::s/key {::xsi/type "xsd:int"} "71284"]
+                                                       [::s/value
+                                                        [::s/bug_num {::xsi/type "xsd:int"} "71284"]
+                                                        [::s/forwarded {::xsi/type "xsd:string"}]]]]]
+                                                    m.primitive/envelop
+                                                    xml/sexp-as-element
+                                                    xml/emit-str)})]
+    (t/is (= [{:bug_num ["16469"]
+               :forwarded []
+               :found_versions ["24.3.50" "28.0.50"]
+               :found {"24.3.50" true "28.0.50" true}}
+              {:bug_num ["71284"]
+               :forwarded []}]
+             (sut/get-status url ["16469" "71284" "57246"])))))
