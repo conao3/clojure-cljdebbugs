@@ -7,4 +7,4 @@
 
 (defn -main [& _args]
   (let [res (m.request/get-bugs gnu-url {:package "emacs"})]
-    (println (:body res))))
+    (println res)))
