@@ -1,6 +1,7 @@
 (ns cljdebbugs.main
   (:require
-   [cljdebbugs.request :as m.request])
+   [cljdebbugs.request :as m.request]
+   [clojure.pprint :as pprint])
   (:gen-class))
 
 (def gnu-url "https://debbugs.gnu.org/cgi/soap.cgi?WSDL")
