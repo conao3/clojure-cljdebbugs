@@ -1,14 +1,14 @@
 {:deps
- {org.clojure/clojure {:mvn/version "1.11.3"}
-  org.clojure/tools.logging {:mvn/version "1.3.0"}
-  org.clojure/data.xml {:mvn/version "0.2.0-alpha9"}
-  org.babashka/http-client {:mvn/version "0.4.19"}
+ {org.clojure/clojure {:mvn/version "1.12.6"}
+  org.clojure/tools.logging {:mvn/version "1.3.1"}
+  org.clojure/data.xml {:mvn/version "0.2.0-alpha11"}
+  org.babashka/http-client {:mvn/version "0.4.26"}
   spootnik/unilog {:mvn/version "0.7.32"}
-  prismatic/schema {:mvn/version "1.4.1"}
-  com.github.clj-easy/graal-build-time {:mvn/version "1.0.5"}}
+  prismatic/schema {:mvn/version "1.4.2"}
+  com.github.clj-easy/graal-build-time {:mvn/version "1.0.6"}}
 
  :aliases
  {:build
   {:deps {com.github.liquidz/build.edn
-          {:git/tag "0.11.257" :git/sha "4ba1985"}}
+          {:git/tag "0.11.266" :git/sha "849302d"}}
    :ns-default build-edn.main}}}
