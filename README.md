@@ -1,4 +1,8 @@
-# cljdebbugs
+<p align="center"><img src="docs/assets/banner.png" alt="cljdebbugs: A Clojure client for the Debbugs bug tracker used by GNU projects" width="880"></p>
+<p align="center"><strong>A Clojure client for the Debbugs bug tracker used by GNU projects</strong></p>
+<p align="center"><a href="LICENSE"><img src="https://img.shields.io/github/license/conao3/clojure-cljdebbugs" alt="License"></a> <a href="https://github.com/conao3/clojure-cljdebbugs/stargazers"><img src="https://img.shields.io/github/stars/conao3/clojure-cljdebbugs?style=flat" alt="GitHub stars"></a></p>
+<p align="center"><a href="#installation">Install</a> | <a href="#usage">Usage</a> | <a href="#api-reference">API Reference</a> | <a href="#license">License</a></p>
+<h1>cljdebbugs</h1>
 
 A Clojure client library for the [Debbugs](https://debbugs.gnu.org/) bug tracking system.
 
